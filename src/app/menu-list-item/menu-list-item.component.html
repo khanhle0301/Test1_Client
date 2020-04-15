@@ -1,0 +1,28 @@
+<li class="list_item clearfix">
+    <div class="item clearfix">
+        <div class="btn_arrow" *ngIf="item.children && item.children.length">
+            <i class="fas" [ngClass]="{'fa-angle-down': expanded, 'fa-angle-right': !expanded}"
+                (click)="onItemSelected(item)"></i>
+        </div>
+        <div class="txt_content" [ngStyle]="{'marginLeft.px': (item.children && item.children.length) ? '0' : '44' }">
+            {{item.name}}
+        </div>
+        <div class="box_btn clearfix float-right">
+            <div class="d-inline float-left btn_default">
+                <a class="text-success mr-3 pointer" title="Thêm" (click)="add(item.id)"><i class="fa fa-plus"></i></a>
+            </div>
+            <div class="d-inline float-left btn_default">
+                <a class="mr-3 pointer" title="Sửa"><i class="fa fa-edit" (click)="edit(item)"></i></a>
+            </div>
+            <div class="d-inline float-left btn_default">
+                <a class="text-danger text-primary pointer" title="Xóa" (click)="delete(item)"><i
+                        class="fa fa-trash-o"></i></a>
+            </div>
+        </div>
+    </div>
+    <ul *ngIf="expanded" class="box_children">
+        <app-menu-list-item *ngFor="let child of item.children" [item]="child" [depth]="depth+1"
+            (addFinished)="add($event)" (editFinished)="edit($event)" (deleteFinished)="delete($event)">
+        </app-menu-list-item>
+    </ul>
+</li>

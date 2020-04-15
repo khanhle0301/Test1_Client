@@ -1,0 +1,64 @@
+<div class="container">
+  <h1>Quản lý menu</h1>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="form-group">
+        <div class="form-row align-items-center">
+          <div class="col-sm-6">
+            <input type="text" class="form-control" placeholder="Nhập tên menu cần tìm..." [(ngModel)]="keyword">
+          </div>
+          <div class="col-auto">
+            <button type="button" class="btn btn-success" (click)="search()">Tìm kiếm</button>
+          </div>
+          <div class="col-auto">
+            <button type="button" class="btn btn-success" (click)="add()">Thêm mới</button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="border">
+          <ul class="box_content">
+            <app-menu-list-item *ngFor="let item of menuItems" [item]="item" (addFinished)="add($event)"
+              (editFinished)="edit($event)" (deleteFinished)="delete($event)"></app-menu-list-item>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Modal add and edit-->
+<div bsModal #modalAddEdit="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true" [config]="{backdrop: 'static'}">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Thêm/Sửa Menu</h4>
+        <button type="button" class="close pull-right" (click)="modalAddEdit.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form novalidate #addEditForm="ngForm" (ngSubmit)="saveChange()" *ngIf="entity">
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Tên</label>
+            <div class="col-sm-10">
+              <input type="text" #name="ngModel" [(ngModel)]="entity.name" required name="name" class="form-control"
+                placeholder="Nhập tên menu">
+              <small [hidden]="name.valid || (name.pristine && !addEditForm.submitted)" class="text-danger">
+                Bạn phải nhập tên
+              </small>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-success" [disabled]="!addEditForm.form.valid">Lưu</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
